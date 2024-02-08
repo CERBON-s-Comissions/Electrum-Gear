@@ -1,6 +1,7 @@
 package com.cerbon.electrum_gear.item;
 
 import com.cerbon.electrum_gear.ElectrumGear;
+import com.cerbon.electrum_gear.util.EGTags;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ArmorItem;
@@ -10,7 +11,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.function.Supplier;
 
 public enum EGArmorMaterials implements ArmorMaterial {
-    ELECTRUM("electrum", 32, new int[]{2, 3, 2, 1}, 25, SoundEvents.ARMOR_EQUIP_GOLD, 1f, 0f, () -> Ingredient.EMPTY); //TODO: Change ingredient to tag
+    ELECTRUM("electrum", 32, new int[]{2, 3, 2, 1}, 25, SoundEvents.ARMOR_EQUIP_GOLD, 1f, 0f, () -> Ingredient.of(EGTags.ELECTRUM_GEAR_REPAIR));
 
     private final String name;
     private final int durabilityMultiplier;
