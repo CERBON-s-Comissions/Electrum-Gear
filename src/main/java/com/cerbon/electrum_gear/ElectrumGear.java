@@ -1,5 +1,7 @@
 package com.cerbon.electrum_gear;
 
+import com.cerbon.electrum_gear.item.EGCreativeModeTabs;
+import com.cerbon.electrum_gear.item.EGItems;
 import com.mojang.logging.LogUtils;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -13,5 +15,8 @@ public class ElectrumGear {
 
     public ElectrumGear() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        EGCreativeModeTabs.register(modEventBus);
+        EGItems.register(modEventBus);
     }
 }
