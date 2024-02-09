@@ -4,5 +4,11 @@
   "item.electrum_gear.electrum_leggings": "Electrum Leggings",
   "item.electrum_gear.electrum_boots": "Electrum Boots",
 
+  "item.electrum_gear.electrum_sword": "Electrum Sword",
+  "item.electrum_gear.electrum_pickaxe": "Electrum Pickaxe",
+  "item.electrum_gear.electrum_axe": "Electrum Axe",
+  "item.electrum_gear.electrum_shovel": "Electrum Shovel",
+  "item.electrum_gear.electrum_hoe": "Electrum Hoe",
+
   "creativemodetab.electrum_gear.electrum_gear_tab": "Electrum Gear"
 }

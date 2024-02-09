@@ -10,6 +10,7 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.armortrim.TrimMaterial;
 import net.minecraft.world.item.armortrim.TrimMaterials;
+import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -42,6 +43,12 @@ public class EGItemModelProvider extends ItemModelProvider {
         trimmedArmorItem(EGItems.ELECTRUM_CHESTPLATE);
         trimmedArmorItem(EGItems.ELECTRUM_LEGGINGS);
         trimmedArmorItem(EGItems.ELECTRUM_BOOTS);
+
+        handheldItem(EGItems.ELECTRUM_AXE);
+        handheldItem(EGItems.ELECTRUM_HOE);
+        handheldItem(EGItems.ELECTRUM_PICKAXE);
+        handheldItem(EGItems.ELECTRUM_SHOVEL);
+        handheldItem(EGItems.ELECTRUM_SWORD);
     }
 
     private void trimmedArmorItem(RegistryObject<Item> itemRegistryObject) {
@@ -88,5 +95,11 @@ public class EGItemModelProvider extends ItemModelProvider {
                                         "item/" + itemRegistryObject.getId().getPath()));
             });
         }
+    }
+
+    private ItemModelBuilder handheldItem(RegistryObject<Item> item) {
+        return withExistingParent(item.getId().getPath(),
+                new ResourceLocation("item/handheld")).texture("layer0",
+                new ResourceLocation(ElectrumGear.MOD_ID,"item/" + item.getId().getPath()));
     }
 }

@@ -11,7 +11,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.function.Supplier;
 
 public enum EGArmorMaterials implements ArmorMaterial {
-    ELECTRUM("electrum", 32, new int[]{2, 3, 2, 1}, 25, SoundEvents.ARMOR_EQUIP_GOLD, 1f, 0f, () -> Ingredient.of(EGTags.ELECTRUM_GEAR_REPAIR));
+    ELECTRUM("electrum", 32, new int[]{2, 3, 2, 1}, 9, SoundEvents.ARMOR_EQUIP_GOLD, 1f, 0f, () -> Ingredient.of(EGTags.ELECTRUM_GEAR_REPAIR));
 
     private final String name;
     private final int durabilityMultiplier;
