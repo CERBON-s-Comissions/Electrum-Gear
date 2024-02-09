@@ -29,4 +29,8 @@ public class EGUtils {
         return helmet.getMaterial() == material && chestPlate.getMaterial() == material &&
                boots.getMaterial() == material && leggings.getMaterial() == material;
     }
+
+    public static boolean hasAnyCorrectArmonOn(ArmorMaterial material, Player player) {
+        return player.getInventory().armor.stream().anyMatch(armorStack -> armorStack.getItem() instanceof ArmorItem armor && armor.getMaterial() == material);
+    }
 }
