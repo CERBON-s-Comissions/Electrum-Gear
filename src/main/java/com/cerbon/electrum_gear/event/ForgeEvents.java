@@ -1,6 +1,7 @@
 package com.cerbon.electrum_gear.event;
 
 import com.cerbon.electrum_gear.ElectrumGear;
+import com.cerbon.electrum_gear.config.EGConfigs;
 import com.cerbon.electrum_gear.item.EGArmorMaterials;
 import com.cerbon.electrum_gear.item.custom.ElectrumShieldItem;
 import com.cerbon.electrum_gear.util.EGUtils;
@@ -31,7 +32,7 @@ public class ForgeEvents {
     public static void onEntityHurt(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player player && event.getSource().getDirectEntity() instanceof LivingEntity attacker)
             if (EGUtils.hasFullSuitOfArmorOn(player) && EGUtils.hasCorrectArmorOn(EGArmorMaterials.ELECTRUM, player) && player.getInventory().armor.stream().allMatch(armor -> armor.getOrCreateTag().getBoolean("IsCharged"))) {
-                attacker.hurt(player.damageSources().thorns(player), 7);
+                attacker.hurt(player.damageSources().thorns(player), EGConfigs.ARMOR_THUNDER_DAMAGE.get());
                 player.level().playSound(null, player.blockPosition(), SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.PLAYERS);
                 player.getInventory().armor.forEach(armor -> armor.getOrCreateTag().putBoolean("IsCharged", false));
             }
@@ -43,8 +44,8 @@ public class ForgeEvents {
             ItemStack shield = event.getEntity().getUseItem();
             shield.getOrCreateTag().putInt("Hit", shield.getOrCreateTag().getInt("Hit") + 1);
 
-            if (shield.getOrCreateTag().getInt("Hit") > 3 && event.getDamageSource().getDirectEntity() instanceof LivingEntity attacker) {
-                attacker.hurt(event.getEntity().damageSources().thorns(event.getEntity()), 7);
+            if (shield.getOrCreateTag().getInt("Hit") > EGConfigs.HITS_TO_CHARGE_SHIELD.get() && event.getDamageSource().getDirectEntity() instanceof LivingEntity attacker) {
+                attacker.hurt(event.getEntity().damageSources().thorns(event.getEntity()), EGConfigs.SHIELD_THUNDER_DAMAGE.get());
                 event.getEntity().level().playSound(null, event.getEntity().blockPosition(), SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.PLAYERS);
                 shield.getOrCreateTag().putInt("Hit", 0);
             }

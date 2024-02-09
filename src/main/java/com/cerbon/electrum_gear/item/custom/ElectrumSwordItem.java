@@ -1,5 +1,6 @@
 package com.cerbon.electrum_gear.item.custom;
 
+import com.cerbon.electrum_gear.config.EGConfigs;
 import com.cerbon.electrum_gear.sound.EGSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
@@ -25,10 +26,10 @@ public class ElectrumSwordItem extends SwordItem {
 
     @Override
     public boolean hurtEnemy(@NotNull ItemStack stack, @NotNull LivingEntity target, @NotNull LivingEntity attacker) {
-        if (new Random().nextFloat() <= 0.3f) {
+        if (new Random().nextFloat() <= EGConfigs.SPEED_CHANCE.get()) {
             if (!isActive)
                 attacker.level().playSound(null, attacker.blockPosition(), EGSounds.ELECTRIC_SOUND1.get(), SoundSource.PLAYERS);
-            attacker.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 90, 1));
+            attacker.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, EGConfigs.SPEED_DURATION.get(), EGConfigs.SPEED_AMPLIFIER.get()));
         }
 
         return super.hurtEnemy(stack, target, attacker);
@@ -42,10 +43,10 @@ public class ElectrumSwordItem extends SwordItem {
 
     @Override
     public boolean mineBlock(@NotNull ItemStack stack, @NotNull Level level, @NotNull BlockState state, @NotNull BlockPos pos, @NotNull LivingEntity livingEntity) {
-        if (new Random().nextFloat() <= 0.3f) {
+        if (new Random().nextFloat() <= EGConfigs.HASTE_CHANCE.get()) {
             if (!isActive)
                 level.playSound(null, livingEntity.blockPosition(), EGSounds.ELECTRIC_SOUND1.get(), SoundSource.PLAYERS);
-            livingEntity.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 60, 2));
+            livingEntity.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, EGConfigs.HASTE_DURATION.get(), EGConfigs.HASTE_AMPLIFIER.get()));
         }
 
         return super.mineBlock(stack, level, state, pos, livingEntity);
