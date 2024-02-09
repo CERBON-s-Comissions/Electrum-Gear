@@ -2,6 +2,7 @@ package com.cerbon.electrum_gear;
 
 import com.cerbon.electrum_gear.item.EGCreativeModeTabs;
 import com.cerbon.electrum_gear.item.EGItems;
+import com.cerbon.electrum_gear.misc.EGRecipes;
 import com.mojang.logging.LogUtils;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -18,5 +19,7 @@ public class ElectrumGear {
 
         EGCreativeModeTabs.register(modEventBus);
         EGItems.register(modEventBus);
+
+        EGRecipes.register(modEventBus);
     }
 }

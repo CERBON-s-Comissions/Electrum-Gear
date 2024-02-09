@@ -2,13 +2,16 @@ package com.cerbon.electrum_gear.event;
 
 import com.cerbon.electrum_gear.ElectrumGear;
 import com.cerbon.electrum_gear.item.EGArmorMaterials;
+import com.cerbon.electrum_gear.item.custom.ElectrumShieldItem;
 import com.cerbon.electrum_gear.util.EGUtils;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.EntityStruckByLightningEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.ShieldBlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -32,5 +35,19 @@ public class ForgeEvents {
                 player.level().playSound(null, player.blockPosition(), SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.PLAYERS);
                 player.getInventory().armor.forEach(armor -> armor.getOrCreateTag().putBoolean("IsCharged", false));
             }
+    }
+
+    @SubscribeEvent
+    public static void onShieldBlock(ShieldBlockEvent event) {
+        if (event.getEntity().getUseItem().getItem() instanceof ElectrumShieldItem) {
+            ItemStack shield = event.getEntity().getUseItem();
+            shield.getOrCreateTag().putInt("Hit", shield.getOrCreateTag().getInt("Hit") + 1);
+
+            if (shield.getOrCreateTag().getInt("Hit") > 3 && event.getDamageSource().getDirectEntity() instanceof LivingEntity attacker) {
+                attacker.hurt(event.getEntity().damageSources().thorns(event.getEntity()), 7);
+                event.getEntity().level().playSound(null, event.getEntity().blockPosition(), SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.PLAYERS);
+                shield.getOrCreateTag().putInt("Hit", 0);
+            }
+        }
     }
 }

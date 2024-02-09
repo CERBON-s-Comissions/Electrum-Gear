@@ -1,0 +1,12 @@
+{
+  "sources": [
+    {
+      "type": "single",
+      "resource": "electrum_gear:entity/electrum_shield_base"
+    },
+    {
+      "type": "single",
+      "resource": "electrum_gear:entity/electrum_shield_base_nopattern"
+    }
+  ]
+}

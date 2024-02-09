@@ -26,6 +26,9 @@ public class EGItems {
     public static final RegistryObject<Item> ELECTRUM_HOE = ITEMS.register("electrum_hoe",
             () -> new ElectrumHoeItem(EGToolTiers.ELECTRUM, -2, -1, new Item.Properties()));
 
+    public static final RegistryObject<Item> ELECTRUM_SHIELD = ITEMS.register("electrum_shield",
+            () -> new ElectrumShieldItem(new Item.Properties().durability(400)));
+
     public static final RegistryObject<Item> ELECTRUM_HELMET = ITEMS.register("electrum_helmet",
             () -> new ElectrumArmorItem(EGArmorMaterials.ELECTRUM, ArmorItem.Type.HELMET, new Item.Properties()));
 

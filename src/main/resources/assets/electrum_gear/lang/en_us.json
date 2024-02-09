@@ -9,6 +9,24 @@
   "item.electrum_gear.electrum_axe": "Electrum Axe",
   "item.electrum_gear.electrum_shovel": "Electrum Shovel",
   "item.electrum_gear.electrum_hoe": "Electrum Hoe",
+  
+  "item.electrum_gear.electrum_shield": "Electrum Shield",
+  "item.electrum_gear.electrum_shield.black": "Black Electrum Shield",
+  "item.electrum_gear.electrum_shield.red": "Red Electrum Shield",
+  "item.electrum_gear.electrum_shield.green": "Green Electrum Shield",
+  "item.electrum_gear.electrum_shield.brown": "Brown Electrum Shield",
+  "item.electrum_gear.electrum_shield.blue": "Blue Electrum Shield",
+  "item.electrum_gear.electrum_shield.purple": "Purple Electrum Shield",
+  "item.electrum_gear.electrum_shield.cyan": "Cyan Electrum Shield",
+  "item.electrum_gear.electrum_shield.light_gray": "Light Gray Electrum Shield",
+  "item.electrum_gear.electrum_shield.gray": "Gray Electrum Shield",
+  "item.electrum_gear.electrum_shield.pink": "Pink Electrum Shield",
+  "item.electrum_gear.electrum_shield.lime": "Lime Electrum Shield",
+  "item.electrum_gear.electrum_shield.yellow": "Yellow Electrum Shield",
+  "item.electrum_gear.electrum_shield.light_blue": "Light Blue Electrum Shield",
+  "item.electrum_gear.electrum_shield.magenta": "Magenta Electrum Shield",
+  "item.electrum_gear.electrum_shield.orange": "Orange Electrum Shield",
+  "item.electrum_gear.electrum_shield.white": "White Electrum Shield",
 
   "creativemodetab.electrum_gear.electrum_gear_tab": "Electrum Gear"
 }
