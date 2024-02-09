@@ -3,10 +3,6 @@
     {
       "id": "createaddition:electrum_ingot",
       "required": false
-    },
-    {
-      "id": "energizedpower:energized_gold_ingot",
-      "required": false
     }
   ]
 }
