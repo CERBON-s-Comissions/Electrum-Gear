@@ -3,7 +3,7 @@
   "minVersion": "0.8",
   "package": "com.cerbon.electrum_gear.mixin",
   "compatibilityLevel": "JAVA_8",
-  "refmap": "banner_claim.refmap.json",
+  "refmap": "electrum_gear.refmap.json",
   "mixins": [
     "ServerLevelMixin"
   ],
