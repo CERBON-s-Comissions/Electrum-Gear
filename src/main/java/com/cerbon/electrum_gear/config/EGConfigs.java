@@ -6,15 +6,15 @@ public class EGConfigs {
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
 
-    public static final ForgeConfigSpec.ConfigValue<Float> HASTE_CHANCE, SPEED_CHANCE;
+    public static final ForgeConfigSpec.ConfigValue<Double> HASTE_CHANCE, SPEED_CHANCE;
     public static final ForgeConfigSpec.ConfigValue<Integer> HASTE_DURATION, HASTE_AMPLIFIER, SPEED_DURATION, SPEED_AMPLIFIER;
     public static final ForgeConfigSpec.ConfigValue<Integer> ARMOR_THUNDER_DAMAGE, SHIELD_THUNDER_DAMAGE, HITS_TO_CHARGE_SHIELD;
 
     static {
         BUILDER.push("Electrum Gear Configs");
 
-        HASTE_CHANCE = BUILDER.define("Haste Chance", 0.3f);
-        SPEED_CHANCE = BUILDER.define("Speed Chance", 0.3f);
+        HASTE_CHANCE = BUILDER.define("Haste Chance", 0.3);
+        SPEED_CHANCE = BUILDER.define("Speed Chance", 0.3);
 
         HASTE_DURATION = BUILDER.define("Haste Duration", 60);
         HASTE_AMPLIFIER = BUILDER.define("Haste Amplifier", 2);
