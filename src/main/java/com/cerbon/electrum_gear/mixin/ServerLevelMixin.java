@@ -1,6 +1,7 @@
 package com.cerbon.electrum_gear.mixin;
 
 import com.cerbon.electrum_gear.item.EGArmorMaterials;
+import com.cerbon.electrum_gear.item.EGItems;
 import com.cerbon.electrum_gear.util.EGUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -24,7 +25,7 @@ public abstract class ServerLevelMixin {
     private void eg_findLightningTargetAround(BlockPos pos, CallbackInfoReturnable<BlockPos> cir) {
         ServerLevel serverLevel = (ServerLevel) (Object) this;
 
-        List<ServerPlayer> serverPlayers = serverLevel.getPlayers(player -> EGUtils.hasAnyCorrectArmonOn(EGArmorMaterials.ELECTRUM, player));
+        List<ServerPlayer> serverPlayers = serverLevel.getPlayers(player -> EGUtils.hasAnyCorrectArmonOn(EGArmorMaterials.ELECTRUM, player) || EGUtils.hasAnyCorrectItemsInHand(EGItems.ITEMS.getEntries().stream().toList(), player));
         ServerPlayer serverPlayer = serverPlayers.isEmpty() ? null : serverPlayers.get(serverLevel.random.nextInt(serverPlayers.size()));
         if (serverPlayer == null) return;
 
