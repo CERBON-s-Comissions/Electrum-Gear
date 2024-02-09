@@ -31,7 +31,7 @@ public class ElectrumSwordItem extends SwordItem {
 
     @Override
     public void onInventoryTick(ItemStack stack, Level level, Player player, int slotIndex, int selectedIndex) {
-        isActive = player.hasEffect(MobEffects.DIG_SPEED);
+        isActive = player.hasEffect(MobEffects.DIG_SPEED) || player.hasEffect(MobEffects.MOVEMENT_SPEED);
         super.onInventoryTick(stack, level, player, slotIndex, selectedIndex);
     }
 
