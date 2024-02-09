@@ -1,6 +1,8 @@
 package com.cerbon.electrum_gear.item.custom;
 
+import com.cerbon.electrum_gear.sound.EGSounds;
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -29,8 +31,11 @@ public class ElectrumHoeItem extends HoeItem {
 
     @Override
     public boolean mineBlock(@NotNull ItemStack stack, @NotNull Level level, @NotNull BlockState state, @NotNull BlockPos pos, @NotNull LivingEntity livingEntity) {
-        if (new Random().nextFloat() <= 0.3f)
+        if (new Random().nextFloat() <= 0.3f) {
+            if (!isActive)
+                level.playSound(null, livingEntity.blockPosition(), EGSounds.ELECTRIC_SOUND1.get(), SoundSource.PLAYERS);
             livingEntity.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 60, 2));
+        }
 
         return super.mineBlock(stack, level, state, pos, livingEntity);
     }
