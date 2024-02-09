@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "electrum_gear:electrum_sword",
+    "electrum_gear:electrum_shovel",
+    "electrum_gear:electrum_pickaxe",
+    "electrum_gear:electrum_axe",
+    "electrum_gear:electrum_hoe"
+  ]
+}
