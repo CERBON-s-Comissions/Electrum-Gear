@@ -32,11 +32,11 @@ public class ElectrumAxeItem extends AxeItem {
 
     @Override
     public boolean mineBlock(@NotNull ItemStack stack, @NotNull Level level, @NotNull BlockState state, @NotNull BlockPos pos, @NotNull LivingEntity livingEntity) {
-        if (new Random().nextFloat() <= EGConfigs.HASTE_CHANCE.get()) {
-            if (!isActive)
+        if (!isActive)
+            if (new Random().nextFloat() <= EGConfigs.HASTE_CHANCE.get()) {
                 level.playSound(null, livingEntity.blockPosition(), EGSounds.ELECTRIC_SOUND1.get(), SoundSource.PLAYERS);
-            livingEntity.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, EGConfigs.HASTE_DURATION.get(), EGConfigs.HASTE_AMPLIFIER.get()));
-        }
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, EGConfigs.HASTE_DURATION.get(), EGConfigs.HASTE_AMPLIFIER.get()));
+            }
 
         return super.mineBlock(stack, level, state, pos, livingEntity);
     }
