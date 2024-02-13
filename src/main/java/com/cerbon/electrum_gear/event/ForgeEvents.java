@@ -1,15 +1,18 @@
 package com.cerbon.electrum_gear.event;
 
 import com.cerbon.electrum_gear.ElectrumGear;
+import com.cerbon.electrum_gear.capability.TimerProvider;
 import com.cerbon.electrum_gear.config.EGConfigs;
 import com.cerbon.electrum_gear.item.EGArmorMaterials;
-import com.cerbon.electrum_gear.item.custom.ElectrumShieldItem;
+import com.cerbon.electrum_gear.item.custom.*;
 import com.cerbon.electrum_gear.util.EGUtils;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityStruckByLightningEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.ShieldBlockEvent;
@@ -18,6 +21,26 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = ElectrumGear.MOD_ID)
 public class ForgeEvents {
+
+    @SubscribeEvent
+    public static void onAttachCapabilityItemStack(AttachCapabilitiesEvent<ItemStack> event) {
+        if (event.getObject() == null) return;
+
+        if (event.getObject().getItem() instanceof ElectrumPickaxeItem)
+            event.addCapability(new ResourceLocation(ElectrumGear.MOD_ID, "timer"), new TimerProvider());
+
+        if (event.getObject().getItem() instanceof ElectrumAxeItem)
+            event.addCapability(new ResourceLocation(ElectrumGear.MOD_ID, "timer"), new TimerProvider());
+
+        if (event.getObject().getItem() instanceof ElectrumHoeItem)
+            event.addCapability(new ResourceLocation(ElectrumGear.MOD_ID, "timer"), new TimerProvider());
+
+        if (event.getObject().getItem() instanceof ElectrumShovelItem)
+            event.addCapability(new ResourceLocation(ElectrumGear.MOD_ID, "timer"), new TimerProvider());
+
+        if (event.getObject().getItem() instanceof ElectrumSwordItem)
+            event.addCapability(new ResourceLocation(ElectrumGear.MOD_ID, "timer"), new TimerProvider());
+    }
 
     @SubscribeEvent
     public static void onHitByLightning(EntityStruckByLightningEvent event) {
