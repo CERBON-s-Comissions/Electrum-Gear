@@ -6,6 +6,7 @@ import com.cerbon.electrum_gear.sound.EGSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -15,6 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -51,6 +53,30 @@ public class ElectrumHoeItem extends HoeItem {
         });
 
         super.inventoryTick(stack, level, entity, slotId, isSelected);
+    }
+
+    @Override
+    public @NotNull InteractionResult useOn(@NotNull UseOnContext context) {
+        if (context.getPlayer() == null) return super.useOn(context);
+
+        CompoundTag tag = context.getItemInHand().getOrCreateTag();
+        if (!tag.getBoolean(IS_ACTIVE_TAG) && context.getLevel().random.nextFloat() <= EGConfigs.HASTE_CHANCE.get()) {
+
+            MobEffectInstance oldEffect = context.getPlayer().getEffect(digSpeed);
+            if (oldEffect != null)
+                tag.putInt(OLD_AMPLIFIER_TAG, oldEffect.getAmplifier());
+
+            int duration = oldEffect != null && oldEffect.getDuration() > EGConfigs.HASTE_DURATION.get() ? oldEffect.getDuration() : EGConfigs.HASTE_DURATION.get();
+            int amplifier = oldEffect != null && oldEffect.getAmplifier() >= EGConfigs.HASTE_AMPLIFIER.get() ? oldEffect.getAmplifier() + 1 : EGConfigs.HASTE_AMPLIFIER.get();
+
+            context.getPlayer().addEffect(new MobEffectInstance(digSpeed, duration, amplifier));
+            context.getLevel().playSound(null, context.getPlayer().blockPosition(), EGSounds.ELECTRIC_SOUND1.get(), SoundSource.PLAYERS);
+
+            context.getItemInHand().getOrCreateTag().putBoolean(IS_ACTIVE_TAG, true);
+            context.getItemInHand().getCapability(TimerProvider.TIMER).ifPresent(timer -> timer.setTimer(EGConfigs.HASTE_DURATION.get()));
+        }
+
+        return super.useOn(context);
     }
 
     @Override
