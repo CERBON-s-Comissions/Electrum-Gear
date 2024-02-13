@@ -24,17 +24,13 @@ public class TimerProvider implements ICapabilitySerializable<CompoundTag> {
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
-
-        if (timer != null)
-            tag.putInt("Timer", timer.getCurrentTime());
-
+        createTimer().saveNBTData(tag);
         return tag;
     }
 
     @Override
     public void deserializeNBT(CompoundTag tag) {
-        if (tag.contains("Timer") && timer != null)
-            timer.setTimer(tag.getInt("Timer"));
+        createTimer().loadNBTData(tag);
     }
 
     @Override

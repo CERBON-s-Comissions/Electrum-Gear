@@ -4,11 +4,14 @@ import com.cerbon.electrum_gear.capability.TimerProvider;
 import com.cerbon.electrum_gear.config.EGConfigs;
 import com.cerbon.electrum_gear.sound.EGSounds;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
@@ -17,7 +20,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
 public class ElectrumAxeItem extends AxeItem {
-    MobEffectInstance oldEffect;
+    private final String IS_ACTIVE_TAG = "IsActive";
+    private final String OLD_AMPLIFIER_TAG = "OldAmplifier";
+
+    private final MobEffect digSpeed = MobEffects.DIG_SPEED;
 
     public ElectrumAxeItem(Tier tier, float attackDamageModifier, float attackSpeedModifier, Properties properties) {
         super(tier, attackDamageModifier, attackSpeedModifier, properties);
@@ -26,18 +32,20 @@ public class ElectrumAxeItem extends AxeItem {
     @Override
     public void inventoryTick(ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slotId, boolean isSelected) {
         stack.getCapability(TimerProvider.TIMER).ifPresent(timer -> {
-            if (stack.getOrCreateTag().getBoolean("IsActive") && timer.getCurrentTime() > 0)
-                timer.decrease();
+            CompoundTag tag = stack.getOrCreateTag();
 
-            else if (timer.getCurrentTime() <= 0 && stack.getOrCreateTag().getBoolean("IsActive")) {
-                stack.getOrCreateTag().putBoolean("IsActive", false);
+            if (tag.getBoolean(IS_ACTIVE_TAG) && timer.getCurrentTime() > 0)
+                timer.decrease(1);
 
-                if (entity instanceof LivingEntity livingEntity && livingEntity.hasEffect(MobEffects.DIG_SPEED)) {
-                    MobEffectInstance currentEffect = this.oldEffect;
+            else if (timer.getCurrentTime() <= 0 && tag.getBoolean(IS_ACTIVE_TAG)) {
+                tag.putBoolean(IS_ACTIVE_TAG, false);
+
+                if (entity instanceof Player player) {
+                    MobEffectInstance currentEffect = player.getEffect(digSpeed);
                     if (currentEffect == null) return;
 
-                    livingEntity.removeEffect(MobEffects.DIG_SPEED);
-                    livingEntity.addEffect(currentEffect);
+                    player.removeEffect(digSpeed);
+                    player.addEffect(new MobEffectInstance(digSpeed, currentEffect.getDuration(), tag.getInt(OLD_AMPLIFIER_TAG)));
                 }
             }
         });
@@ -47,27 +55,29 @@ public class ElectrumAxeItem extends AxeItem {
 
     @Override
     public boolean mineBlock(@NotNull ItemStack stack, @NotNull Level level, @NotNull BlockState state, @NotNull BlockPos pos, @NotNull LivingEntity livingEntity) {
-        if (!stack.getOrCreateTag().getBoolean("IsActive") && level.random.nextFloat() <= EGConfigs.HASTE_CHANCE.get()) {
+        if (!(livingEntity instanceof Player player)) return super.mineBlock(stack, level, state, pos, livingEntity);
 
-            MobEffectInstance currentEffect = livingEntity.getEffect(MobEffects.DIG_SPEED);
-            if (currentEffect != null)
-                this.oldEffect = new MobEffectInstance(currentEffect.getEffect(), currentEffect.getDuration(), currentEffect.getAmplifier());
+        CompoundTag tag = stack.getOrCreateTag();
+        if (!tag.getBoolean(IS_ACTIVE_TAG) && level.random.nextFloat() <= EGConfigs.HASTE_CHANCE.get()) {
 
-            int duration = currentEffect != null && currentEffect.getDuration() > EGConfigs.HASTE_DURATION.get() ? currentEffect.getDuration() : EGConfigs.HASTE_DURATION.get();
-            int amplifier = currentEffect != null && currentEffect.getAmplifier() >= EGConfigs.HASTE_AMPLIFIER.get() ? currentEffect.getAmplifier() + 1 : EGConfigs.HASTE_AMPLIFIER.get();
+            MobEffectInstance oldEffect = player.getEffect(digSpeed);
+            if (oldEffect != null)
+                tag.putInt(OLD_AMPLIFIER_TAG, oldEffect.getAmplifier());
 
-            level.playSound(null, livingEntity.blockPosition(), EGSounds.ELECTRIC_SOUND1.get(), SoundSource.PLAYERS);
-            livingEntity.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, duration, amplifier));
+            int duration = oldEffect != null && oldEffect.getDuration() > EGConfigs.HASTE_DURATION.get() ? oldEffect.getDuration() : EGConfigs.HASTE_DURATION.get();
+            int amplifier = oldEffect != null && oldEffect.getAmplifier() >= EGConfigs.HASTE_AMPLIFIER.get() ? oldEffect.getAmplifier() + 1 : EGConfigs.HASTE_AMPLIFIER.get();
 
-            stack.getOrCreateTag().putBoolean("IsActive", true);
+            player.addEffect(new MobEffectInstance(digSpeed, duration, amplifier));
+            level.playSound(null, player.blockPosition(), EGSounds.ELECTRIC_SOUND1.get(), SoundSource.PLAYERS);
+
+            stack.getOrCreateTag().putBoolean(IS_ACTIVE_TAG, true);
             stack.getCapability(TimerProvider.TIMER).ifPresent(timer -> timer.setTimer(EGConfigs.HASTE_DURATION.get()));
         }
-
         return super.mineBlock(stack, level, state, pos, livingEntity);
     }
 
     @Override
     public boolean isFoil(@NotNull ItemStack stack) {
-        return stack.getOrCreateTag().getBoolean("IsActive") || super.isFoil(stack);
+        return stack.getOrCreateTag().getBoolean(IS_ACTIVE_TAG) || super.isFoil(stack);
     }
 }
