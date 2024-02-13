@@ -4,5 +4,11 @@
     "sounds": [
       "electrum_gear:electric_sound1"
     ]
+  },
+  "electric_sound2": {
+    "subtitle": "",
+    "sounds": [
+      "electrum_gear:electric_sound2"
+    ]
   }
 }

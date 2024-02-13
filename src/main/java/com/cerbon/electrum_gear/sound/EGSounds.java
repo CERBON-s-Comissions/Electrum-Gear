@@ -12,6 +12,7 @@ public class EGSounds {
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, ElectrumGear.MOD_ID);
 
     public static final RegistryObject<SoundEvent> ELECTRIC_SOUND1 = registerSoundEvent("electric_sound1");
+    public static final RegistryObject<SoundEvent> ELECTRIC_SOUND2 = registerSoundEvent("electric_sound2");
 
     private static RegistryObject<SoundEvent> registerSoundEvent(String name){
         ResourceLocation id = new ResourceLocation(ElectrumGear.MOD_ID, name);

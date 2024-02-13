@@ -5,9 +5,9 @@ import com.cerbon.electrum_gear.capability.TimerProvider;
 import com.cerbon.electrum_gear.config.EGConfigs;
 import com.cerbon.electrum_gear.item.EGArmorMaterials;
 import com.cerbon.electrum_gear.item.custom.*;
+import com.cerbon.electrum_gear.sound.EGSounds;
 import com.cerbon.electrum_gear.util.EGUtils;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -56,7 +56,7 @@ public class ForgeEvents {
         if (event.getEntity() instanceof Player player && event.getSource().getDirectEntity() instanceof LivingEntity attacker)
             if (EGUtils.hasFullSuitOfArmorOn(player) && EGUtils.hasCorrectArmorOn(EGArmorMaterials.ELECTRUM, player) && player.getInventory().armor.stream().allMatch(armor -> armor.getOrCreateTag().getBoolean("IsCharged"))) {
                 attacker.hurt(player.damageSources().thorns(player), EGConfigs.ARMOR_THUNDER_DAMAGE.get());
-                player.level().playSound(null, player.blockPosition(), SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.PLAYERS);
+                player.level().playSound(null, player.blockPosition(), EGSounds.ELECTRIC_SOUND2.get(), SoundSource.PLAYERS);
                 player.getInventory().armor.forEach(armor -> armor.getOrCreateTag().putBoolean("IsCharged", false));
             }
     }
@@ -69,7 +69,7 @@ public class ForgeEvents {
 
             if (shield.getOrCreateTag().getInt("Hit") > EGConfigs.HITS_TO_CHARGE_SHIELD.get() && event.getDamageSource().getDirectEntity() instanceof LivingEntity attacker) {
                 attacker.hurt(event.getEntity().damageSources().thorns(event.getEntity()), EGConfigs.SHIELD_THUNDER_DAMAGE.get());
-                event.getEntity().level().playSound(null, event.getEntity().blockPosition(), SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.PLAYERS);
+                event.getEntity().level().playSound(null, event.getEntity().blockPosition(), EGSounds.ELECTRIC_SOUND2.get(), SoundSource.PLAYERS);
                 shield.getOrCreateTag().putInt("Hit", 0);
             }
         }
