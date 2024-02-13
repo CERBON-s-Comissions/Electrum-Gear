@@ -10,11 +10,14 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -22,6 +25,7 @@ import org.jetbrains.annotations.NotNull;
 public class ElectrumSwordItem extends SwordItem {
     private final String IS_ACTIVE_TAG = "IsActive";
     private final String OLD_AMPLIFIER_TAG = "OldAmplifier";
+    private final String HIT_TIMES_TAG = "HitTimes";
 
     private final MobEffect digSpeed = MobEffects.DIG_SPEED;
     private final MobEffect movementSpeed = MobEffects.MOVEMENT_SPEED;
@@ -102,6 +106,23 @@ public class ElectrumSwordItem extends SwordItem {
 
             stack.getOrCreateTag().putBoolean(IS_ACTIVE_TAG, true);
             stack.getCapability(TimerProvider.TIMER).ifPresent(timer -> timer.setTimer(EGConfigs.SPEED_DURATION.get()));
+        }
+
+        if (stack.getAllEnchantments().containsKey(Enchantments.CHANNELING)) {
+            if (tag.getInt(HIT_TIMES_TAG) > EGConfigs.HITS_BEFORE_LIGHTINING_BOLT.get())
+                if (player.level().random.nextFloat() <= EGConfigs.LIGHTINING_BOLT_CHANCE.get()) {
+                    LightningBolt lightningBolt = EntityType.LIGHTNING_BOLT.create(player.level());
+
+                    if (lightningBolt != null) {
+                        lightningBolt.moveTo(target.position());
+                        player.level().addFreshEntity(lightningBolt);
+                    }
+
+                    tag.putInt(HIT_TIMES_TAG, 0);
+                } else
+                    tag.putInt(HIT_TIMES_TAG, 0);
+
+            tag.putInt(HIT_TIMES_TAG, tag.getInt(HIT_TIMES_TAG) + 1);
         }
         return super.hurtEnemy(stack, target, attacker);
     }

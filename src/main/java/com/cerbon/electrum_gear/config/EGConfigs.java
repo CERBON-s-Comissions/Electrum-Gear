@@ -6,9 +6,9 @@ public class EGConfigs {
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
 
-    public static final ForgeConfigSpec.ConfigValue<Double> HASTE_CHANCE, SPEED_CHANCE;
+    public static final ForgeConfigSpec.ConfigValue<Double> HASTE_CHANCE, SPEED_CHANCE, LIGHTINING_BOLT_CHANCE;
     public static final ForgeConfigSpec.ConfigValue<Integer> HASTE_DURATION, HASTE_AMPLIFIER, SPEED_DURATION, SPEED_AMPLIFIER;
-    public static final ForgeConfigSpec.ConfigValue<Integer> ARMOR_THUNDER_DAMAGE, SHIELD_THUNDER_DAMAGE, HITS_TO_CHARGE_SHIELD;
+    public static final ForgeConfigSpec.ConfigValue<Integer> ARMOR_THUNDER_DAMAGE, SHIELD_THUNDER_DAMAGE, HITS_TO_CHARGE_SHIELD, HITS_BEFORE_LIGHTINING_BOLT;
 
     static {
         BUILDER.push("Electrum Gear Configs");
@@ -26,6 +26,8 @@ public class EGConfigs {
         SHIELD_THUNDER_DAMAGE = BUILDER.define("Shield Thunder Damage", 7);
 
         HITS_TO_CHARGE_SHIELD = BUILDER.define("Hits To Charge Shield", 3);
+        HITS_BEFORE_LIGHTINING_BOLT = BUILDER.define("Hits To Summon Lighting Bolt", 3);
+        LIGHTINING_BOLT_CHANCE = BUILDER.define("Lighting Bolt Chance", 0.5);
 
         SPEC = BUILDER.build();
     }
