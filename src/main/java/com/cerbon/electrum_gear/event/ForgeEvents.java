@@ -1,5 +1,6 @@
 package com.cerbon.electrum_gear.event;
 
+import com.cerbon.cerbons_api.api.static_utilities.RandomUtils;
 import com.cerbon.electrum_gear.ElectrumGear;
 import com.cerbon.electrum_gear.capability.TimerProvider;
 import com.cerbon.electrum_gear.config.EGConfigs;
@@ -11,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityStruckByLightningEvent;
@@ -18,6 +20,8 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.ShieldBlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = ElectrumGear.MOD_ID)
 public class ForgeEvents {
@@ -71,6 +75,11 @@ public class ForgeEvents {
                 attacker.hurt(event.getEntity().damageSources().thorns(event.getEntity()), EGConfigs.SHIELD_THUNDER_DAMAGE.get());
                 event.getEntity().level().playSound(null, event.getEntity().blockPosition(), EGSounds.ELECTRIC_SOUND2.get(), SoundSource.PLAYERS);
                 shield.getOrCreateTag().putInt("Hit", 0);
+            }
+
+            if (event.getDamageSource().getDirectEntity() instanceof Projectile projectile) {
+                Random random = new Random();
+                projectile.setDeltaMovement(random.nextDouble(10) * RandomUtils.randSign(), random.nextDouble(10) * RandomUtils.randSign(), random.nextDouble(10) * RandomUtils.randSign());
             }
         }
     }
