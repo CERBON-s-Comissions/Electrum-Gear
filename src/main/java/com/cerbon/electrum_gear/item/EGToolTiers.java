@@ -14,6 +14,6 @@ import java.util.List;
 public class EGToolTiers {
     public static final Tier ELECTRUM = TierSortingRegistry.registerTier(
             new ForgeTier(2, 400, 12, 2.5f, 14, EGTags.NEEDS_ELECTRUM_TOOL, () -> Ingredient.of(EGTags.ELECTRUM_GEAR_REPAIR)),
-            new ResourceLocation(ElectrumGear.MOD_ID, "electrum"), List.of(Tiers.IRON), List.of()
+            new ResourceLocation(ElectrumGear.MOD_ID, "electrum"), List.of(Tiers.DIAMOND), List.of()
     );
 }
