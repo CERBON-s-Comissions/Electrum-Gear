@@ -6,6 +6,8 @@ import com.cerbon.electrum_gear.sound.EGSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -74,6 +76,11 @@ public class ElectrumPickaxeItem extends PickaxeItem {
             stack.getCapability(TimerProvider.TIMER).ifPresent(timer -> timer.setTimer(EGConfigs.HASTE_DURATION.get()));
         }
         return super.mineBlock(stack, level, state, pos, livingEntity);
+    }
+
+    @Override
+    public boolean canBeHurtBy(DamageSource damageSource) {
+        return !damageSource.is(DamageTypeTags.IS_LIGHTNING) && super.canBeHurtBy(damageSource);
     }
 
     @Override

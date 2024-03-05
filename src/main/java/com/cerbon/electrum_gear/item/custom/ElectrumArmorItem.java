@@ -1,6 +1,8 @@
 package com.cerbon.electrum_gear.item.custom;
 
 import com.cerbon.electrum_gear.item.EGArmorMaterials;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
@@ -19,6 +21,11 @@ public class ElectrumArmorItem extends ArmorItem {
             return true;
 
         return super.makesPiglinsNeutral(stack, wearer);
+    }
+
+    @Override
+    public boolean canBeHurtBy(DamageSource damageSource) {
+        return !damageSource.is(DamageTypeTags.IS_LIGHTNING) && super.canBeHurtBy(damageSource);
     }
 
     @Override

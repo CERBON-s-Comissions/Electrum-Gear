@@ -6,6 +6,8 @@ import com.cerbon.electrum_gear.sound.EGSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -125,6 +127,11 @@ public class ElectrumSwordItem extends SwordItem {
             tag.putInt(HIT_TIMES_TAG, tag.getInt(HIT_TIMES_TAG) + 1);
         }
         return super.hurtEnemy(stack, target, attacker);
+    }
+
+    @Override
+    public boolean canBeHurtBy(DamageSource damageSource) {
+        return !damageSource.is(DamageTypeTags.IS_LIGHTNING) && super.canBeHurtBy(damageSource);
     }
 
     @Override
